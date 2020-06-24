@@ -1,0 +1,24 @@
+{
+	"push": {
+		"enabled": 	false
+	},
+	"emails": {
+		"enabled": 	false
+	},
+	"trello": {
+		"board": 	"xxx",
+		"enabled": 	false
+	},
+	"slack": {
+		"token":	"xxx",
+		"channel":	"xxx",
+		"enabled": 	false
+	},
+	"webpush": {
+		"enabled": false
+	},
+	"token": 	{},
+	"email": 	"xxx@xxx.co.za",
+	"appId": 	"xxx",
+	"alerting": "http://127.0.0.1:5500"
+}

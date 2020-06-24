@@ -1,0 +1,35 @@
+{
+  "name": "alerting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "alerting.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitid-open-source-iot/alerting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitid-open-source-iot/alerting/issues"
+  },
+  "homepage": "https://github.com/bitid-open-source-iot/alerting#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.12.1",
+    "log4js": "^6.3.0",
+    "mongodb": "^3.5.9",
+    "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.10",
+    "nodemailer-express-handlebars": "^4.0.0",
+    "q": "^1.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-subset": "^1.6.0"
+  }
+}
