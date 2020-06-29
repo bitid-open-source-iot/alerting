@@ -8,6 +8,7 @@ var notify      = require('./lib/notification');
 var express     = require('express');
 var responder   = require('./lib/responder');
 var bodyParser  = require('body-parser');
+var healthcheck = require('@bitid/health-check');
 
 global.__firebase       = {
     'status': 'not_initialized'
@@ -87,9 +88,8 @@ try {
                 app.use('/alerting/smsgateways', smsgateways);
                 __logger.info('Loaded ./api/alerting/smsgateways');
 
-                var healthcheck = require('./api/healthcheck');
-                app.use('/alerting/healthcheck', healthcheck);
-                __logger.info('Loaded ./api/alerting/healthcheck');
+                app.use('/health-check', healthcheck);
+                __logger.info('Loaded ./api/health-check');
 
                 app.use((err, req, res, next) => {
                     portal.errorResponse.error.code               = 500;

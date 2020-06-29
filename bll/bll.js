@@ -251,41 +251,9 @@ var module = function() {
         }
 	};
 
-    var bllHealthCheck = {
-        errorResponse: {
-            "error": {
-                "code":     401,
-                "message": "Health Check Error",
-                "errors": [{
-                    "code":         401,
-                    "reason":       "General Error",
-                    "message":      "Health Check Error",
-                    "locaction":    "bllHealthCheck",
-                    "locationType": "body"
-                }]
-            },
-            "hiddenErrors": []
-        },
-
-        poll: (req, res) => {
-            if (req.host != "127.0.0.1") {
-                var err = new ErrorResponse();
-                __responder.error(req, res, err);
-            } else {
-                __responder.success(req, res, {
-                    'uptime':		process.uptime(),
-                    'memory':		process.memoryUsage(),
-                    'message':		'OK',
-                    'timestamp':	new Date()
-                });
-            };
-        }
-    };
-
 	return {
         "alerts": 	    bllAlerts,
-        "tokens":       bllTokens,
-        "healthcheck":  bllHealthCheck
+        "tokens":       bllTokens
 	};
 };
 
