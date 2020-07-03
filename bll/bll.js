@@ -190,7 +190,9 @@ var module = function() {
             .then(myModule.alerts.write, null)
             .then(args => {
                 __responder.success(req, res, args.result);
-            }, err => {
+            })
+            .catch(err => {
+                console.log(err);
                 __responder.error(req, res, err);
             });
         },
