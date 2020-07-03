@@ -1,6 +1,7 @@
-var Q       	= require('q');
-var db			= require('../db/mongo');
-var ObjectId 	= require('mongodb').ObjectId;
+var Q       		= require('q');
+var db				= require('../db/mongo');
+var ObjectId 		= require('mongodb').ObjectId;
+var ErrorResponse 	= require('../lib/error-response').ErrorResponse;
 
 var module = function() {
 	var dalAlerts = {
@@ -41,10 +42,13 @@ var module = function() {
 			.then(result => {
 				args.result = result;
 				deferred.resolve(args);
-			}, err => {
-				dalAlerts.errorResponse.error.errors[0].code 	= err.code 			|| dalAlerts.errorResponse.error.errors[0].code;
-				dalAlerts.errorResponse.error.errors[0].reason 	= err.description 	|| 'Write Historical Alerts Error';
-				deferred.reject(dalAlerts.errorResponse);
+			}, error => {
+				var err						= new ErrorResponse();
+				err.error.code				= 503;
+				err.error.errors[0].code	= 503;
+				err.error.errors[0].reason	= error.description;
+				err.error.errors[0].message	= error.description;
+				deferred.reject(err);
 			});
 
 			return deferred.promise;
