@@ -31,7 +31,6 @@ var module = function() {
             .then(args => args.result.reduce((promise, app) => promise.then(async () => {
                 var deferred = Q.defer();
 
-                console.log(1);
 
                 args.req.body.users.map(email => {
                     var alert = {
@@ -107,7 +106,6 @@ var module = function() {
             .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                 var deferred = Q.defer();
                 
-                console.log(2);
 
                 args.tokens.map(item => {
                     if (item.appId == alert.appId && item.email == alert.email) {
@@ -125,7 +123,6 @@ var module = function() {
             .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                 var deferred = Q.defer();
 
-                console.log(3);
 
                 if (alert.config.push.enabled && typeof(alert.config.push.token) != "undefined") {
                     const push = await notification.push(alert.appId, alert.config.push.token, alert.title, alert.message);
@@ -192,7 +189,6 @@ var module = function() {
                 __responder.success(req, res, args.result);
             })
             .catch(err => {
-                console.log(err);
                 __responder.error(req, res, err);
             });
         },
