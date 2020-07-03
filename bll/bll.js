@@ -185,7 +185,7 @@ var module = function() {
             .then(args => {
                 __responder.success(req, res, args.result);
             }, err => {
-                __responder.err(req, res, err);
+                __responder.error(req, res, err);
             });
         },
        
