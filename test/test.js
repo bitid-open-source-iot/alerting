@@ -7,6 +7,8 @@ var config     	= require('./config.json');
 var chaiSubset  = require('chai-subset');
 chai.use(chaiSubset);
 
+var messageId = null;
+
 describe('Send & Historical', function() {
     it('/alerting/alerts/send', function(done) {
         this.timeout(20000);
@@ -41,6 +43,35 @@ describe('Send & Historical', function() {
                 result[0].should.have.property('appId');
                 result[0].should.have.property('config');
                 result[0].should.have.property('message');
+                result[0].should.have.property('messageId');
+                messageId = result[0].messageId;
+                done();
+            } catch(e) {
+                done(e);
+            };
+        }, (err) => {
+            try {
+                done(err);
+            } catch(e) {
+                done(e);
+            };
+        });
+    });
+
+    it('/alerting/alerts/get', function(done) {
+        this.timeout(5000);
+
+        tools.api.alerts.get()
+        .then((result) => {
+            try {
+                result.should.have.property('data');
+                result.should.have.property('date');
+                result.should.have.property('email');
+                result.should.have.property('title');
+                result.should.have.property('appId');
+                result.should.have.property('config');
+                result.should.have.property('message');
+                result.should.have.property('messageId');
                 done();
             } catch(e) {
                 done(e);
@@ -82,6 +113,26 @@ describe('Health Check', function() {
 var tools = {
     api: {
         alerts: {
+            get: () => {
+                var deferred = Q.defer();
+                
+                tools.post('/alerting/alerts/get', {
+                    'filter': [
+                        'data',
+                        'date',
+                        'email',
+                        'title',
+                        'appId',
+                        'config',
+                        'message',
+                        'messageId'
+                    ],
+                    'messageId': messageId
+                })
+                .then(deferred.resolve, deferred.resolve);
+
+                return deferred.promise;
+            },
             send: () => {
                 var deferred = Q.defer();
                 
@@ -124,7 +175,8 @@ var tools = {
                         'title',
                         'appId',
                         'config',
-                        'message'
+                        'message',
+                        'messageId'
                     ]
                 })
                 .then(deferred.resolve, deferred.resolve);

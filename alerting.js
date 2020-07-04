@@ -84,10 +84,6 @@ try {
                 app.use('/alerting/tokens', tokens);
                 __logger.info('Loaded ./api/alerting/tokens');
 
-                var smsgateways = require('./api/smsgateways');
-                app.use('/alerting/smsgateways', smsgateways);
-                __logger.info('Loaded ./api/alerting/smsgateways');
-
                 app.use('/health-check', healthcheck);
                 __logger.info('Loaded ./api/health-check');
 
