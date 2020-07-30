@@ -49,34 +49,38 @@ var module = function() {
 		write: (args) => {
 			var deferred = Q.defer();
 
-			var params = args.alerts.map(alert => {
-				return {
-					'data':		alert.data,
-					'date': 	new Date(),
-					'email': 	alert.email,
-					'title': 	alert.title,
-					'appId': 	ObjectId(alert.appId),
-					'config': 	alert.config,
-					'message': 	alert.message
-				};
-			});
-
-			db.call({
-				'params': 		params,
-				'operation': 	'insertMany',
-				'collection': 	'tblHistorical'
-			})
-			.then(result => {
-				args.result = result;
+			if (args.alerts.length == 0) {
 				deferred.resolve(args);
-			}, error => {
-				var err						= new ErrorResponse();
-				err.error.code				= 503;
-				err.error.errors[0].code	= error.code;
-				err.error.errors[0].reason	= error.description;
-				err.error.errors[0].message	= error.description;
-				deferred.reject(err);
-			});
+			} else {
+				var params = args.alerts.map(alert => {
+					return {
+						'data':		alert.data,
+						'date': 	new Date(),
+						'email': 	alert.email,
+						'title': 	alert.title,
+						'appId': 	ObjectId(alert.appId),
+						'config': 	alert.config,
+						'message': 	alert.message
+					};
+				});
+	
+				db.call({
+					'params': 		params,
+					'operation': 	'insertMany',
+					'collection': 	'tblHistorical'
+				})
+				.then(result => {
+					args.result = result;
+					deferred.resolve(args);
+				}, error => {
+					var err						= new ErrorResponse();
+					err.error.code				= 503;
+					err.error.errors[0].code	= error.code;
+					err.error.errors[0].reason	= error.description;
+					err.error.errors[0].message	= error.description;
+					deferred.reject(err);
+				});	
+			};
 
 			return deferred.promise;
 		},
