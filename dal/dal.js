@@ -132,7 +132,7 @@ var module = function() {
 			.then(result => {
 				args.result = result;
 				deferred.resolve(args);
-			}, err => {
+			}, error => {
 				var err						= new ErrorResponse();
 				err.error.code				= 503;
 				err.error.errors[0].code	= error.code;
