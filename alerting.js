@@ -27,7 +27,7 @@ try {
                 "errors":[{
                     "reason":       "Alerting Error",
                     "message":      "Invalid Credentials",
-                    "locaction":    "Alerting",
+                    "location":    "Alerting",
                     "locationType": "header"
                 }]
             },

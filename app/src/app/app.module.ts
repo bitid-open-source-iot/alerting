@@ -18,6 +18,7 @@ import { ApiService } from './services/api/api.service';
 import { MenuService } from './services/menu/menu.service';
 import { AuthManager } from './services/account/account.manager';
 import { ToastService } from './services/toast/toast.service';
+import { HistoryService } from './services/history/history.service';
 import { AccountService } from './services/account/account.service';
 import { FormErrorService } from './services/form-error/form-error.service';
 import { LocalstorageService } from './services/localstorage/localstorage.service';
@@ -54,6 +55,7 @@ import { environment } from '../environments/environment';
         MenuService,
         AuthManager,
         ToastService,
+        HistoryService,
         AccountService,
         FormErrorService,
         LocalstorageService
