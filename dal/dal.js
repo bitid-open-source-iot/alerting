@@ -187,19 +187,28 @@ var module = function () {
 				sort = args.req.body.sort;
 			};
 
-			var limit = 0;
+			var limit = 10000;
 			if (typeof (args.req.body.limit) != 'undefined') {
 				limit = Math.floor(args.req.body.limit);
 			};
 
-			var filter = {};
+			var filter = {
+				'_id': 1,
+				'data': 1,
+				'date': 1,
+				'email': 1,
+				'title': 1,
+				'appId': 1,
+				'config': 1,
+				'message': 1
+			};
 			if (typeof (args.req.body.filter) != 'undefined') {
 				filter._id = 0;
-				args.req.body.filter.map(f => {
-					if (f == 'messageId') {
-						filter._id = 1;
-					} else {
-						filter[f] = 1;
+				Object.keys(filter).map(key => {
+					if (args.req.body.filter.includes('messageId') && key == '_id') {
+						filter[key] = 1;
+					} else if (!args.req.body.filter.includes(key) && key != '_id') {
+						filter[key] = 0;
 					};
 				});
 			};
