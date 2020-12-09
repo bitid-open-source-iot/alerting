@@ -1,5 +1,5 @@
-var bll		= require('../bll/bll');
-var router	= require('express').Router();
+const bll = require('../bll/bll');
+const router = require('express').Router();
 
 router.post('/get', (req, res) => {
     var myModule = new bll.module();
@@ -12,8 +12,8 @@ router.post('/send', (req, res) => {
 });
 
 router.post('/historical', (req, res) => {
-	var myModule = new bll.module();
-	myModule.alerts.historical(req, res);
+    var myModule = new bll.module();
+    myModule.alerts.historical(req, res);
 });
 
 module.exports = router;

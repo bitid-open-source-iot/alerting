@@ -84,7 +84,7 @@ var module = function () {
 
 		historical: (args) => {
 			var deferred = Q.defer();
-			
+
 			var match = {
 				'email': args.req.body.header.email
 			};
@@ -127,8 +127,8 @@ var module = function () {
 						match['time.milliseconds'] = {};
 					};
 					var to = new Time(args.req.body.time.to);
-					match['time.hours'].$lte = to.getHours();
-					match['time.minutes'].$lte = to.getMinutes();
+					match['time.hours'].$lte = to.getHours(23);
+					match['time.minutes'].$lte = to.getMinutes(59);
 					match['time.seconds'].$lte = to.getSeconds(59);
 					match['time.milliseconds'].$lte = to.getMilliseconds(999);
 				};
@@ -146,10 +146,10 @@ var module = function () {
 						match['time.milliseconds'] = {};
 					};
 					var from = new Time(args.req.body.time.from);
-					match['time.hours'].$gte = from.getHours();
-					match['time.minutes'].$gte = from.getMinutes();
-					match['time.seconds'].$gte = from.getSeconds();
-					match['time.milliseconds'].$gte = from.getMilliseconds();
+					match['time.hours'].$gte = from.getHours(0);
+					match['time.minutes'].$gte = from.getMinutes(0);
+					match['time.seconds'].$gte = from.getSeconds(0);
+					match['time.milliseconds'].$gte = from.getMilliseconds(0);
 				};
 			};
 
@@ -181,8 +181,8 @@ var module = function () {
 			if (typeof (args.req.body.skip) != 'undefined') {
 				skip = Math.floor(args.req.body.skip);
 			};
-			
-			var sort = {'_id': 1};
+
+			var sort = { '_id': 1 };
 			if (typeof (args.req.body.sort) != 'undefined') {
 				sort = args.req.body.sort;
 			};
