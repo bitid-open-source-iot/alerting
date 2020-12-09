@@ -192,17 +192,17 @@ var module = function () {
 				limit = Math.floor(args.req.body.limit);
 			};
 
-			// var filter = {};
-			// if (typeof (args.req.body.filter) != 'undefined') {
-			// 	filter._id = 0;
-			// 	args.req.body.filter.map(f => {
-			// 		if (f == 'messageId') {
-			// 			filter._id = 1;
-			// 		} else {
-			// 			filter[f] = 1;
-			// 		};
-			// 	});
-			// };
+			var filter = {};
+			if (typeof (args.req.body.filter) != 'undefined') {
+				filter._id = 0;
+				args.req.body.filter.map(f => {
+					if (f == 'messageId') {
+						filter._id = 1;
+					} else {
+						filter[f] = 1;
+					};
+				});
+			};
 
 			var params = [
 				{
@@ -235,7 +235,7 @@ var module = function () {
 					$match: match
 				},
 				{
-					$project: project
+					$project: filter
 				},
 				{
 					$sort: sort
