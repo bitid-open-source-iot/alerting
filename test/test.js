@@ -1,6 +1,7 @@
 const Q = require('q');
 const chai = require('chai');
 const fetch = require('node-fetch');
+const moment = require('moment');
 const expect = require('chai').expect;
 const should = require('chai').should();
 const config = require('./config.json');
@@ -167,6 +168,8 @@ var tools = {
             historical: () => {
                 var deferred = Q.defer();
 
+                var date = new Date();
+
                 tools.post('/alerting/alerts/historical', {
                     'filter': [
                         'data',
@@ -177,7 +180,15 @@ var tools = {
                         'config',
                         'message',
                         'messageId'
-                    ]
+                    ],
+                    'date': {
+                        'to': moment().format('YYYY/MM/DD'),
+                        'from': moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY/MM/DD')
+                    },
+                    'time': {
+                        'to': '23:59',
+                        'from': '00:00'
+                    }
                 })
                     .then(deferred.resolve, deferred.resolve);
 

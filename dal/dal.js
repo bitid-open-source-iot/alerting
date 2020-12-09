@@ -91,7 +91,7 @@ var module = function () {
 
 			if (typeof (args.req.body.date) != 'undefined' && args.req.body.date !== null) {
 				if (typeof (args.req.body.date.to) != 'undefined' && args.req.body.date.to !== null) {
-					if (typeof (match.date) != 'undefined' && match.date !== null) {
+					if (typeof (match.date) == 'undefined' || match.date == null) {
 						match.date = {};
 					};
 					match.date.$lte = new Date(args.req.body.date.to);
@@ -101,7 +101,7 @@ var module = function () {
 					match.date.$lte.setMilliseconds(999);
 				};
 				if (typeof (args.req.body.date.from) != 'undefined' && args.req.body.date.from !== null) {
-					if (typeof (match.date) != 'undefined' && match.date !== null) {
+					if (typeof (match.date) == 'undefined' || match.date == null) {
 						match.date = {};
 					};
 					match.date.$gte = new Date(args.req.body.date.from);
@@ -114,35 +114,35 @@ var module = function () {
 
 			if (typeof (args.req.body.time) != 'undefined' && args.req.body.time !== null) {
 				if (typeof (args.req.body.time.to) != 'undefined' && args.req.body.time.to !== null) {
-					if (typeof (match['time.hours']) != 'undefined' && match['time.hours'] !== null) {
+					if (typeof (match['time.hours']) == 'undefined' || match['time.hours'] == null) {
 						match['time.hours'] = {};
 					};
-					if (typeof (match['time.minutes']) != 'undefined' && match['time.minutes'] !== null) {
+					if (typeof (match['time.minutes']) == 'undefined' || match['time.minutes'] == null) {
 						match['time.minutes'] = {};
 					};
-					if (typeof (match['time.seconds']) != 'undefined' && match['time.seconds'] !== null) {
+					if (typeof (match['time.seconds']) == 'undefined' || match['time.seconds'] == null) {
 						match['time.seconds'] = {};
 					};
-					if (typeof (match['time.milliseconds']) != 'undefined' && match['time.milliseconds'] !== null) {
+					if (typeof (match['time.milliseconds']) == 'undefined' || match['time.milliseconds'] == null) {
 						match['time.milliseconds'] = {};
 					};
 					var to = new Time(args.req.body.time.to);
 					match['time.hours'].$lte = to.getHours();
 					match['time.minutes'].$lte = to.getMinutes();
-					match['time.seconds'].$lte = to.getSeconds();
-					match['time.milliseconds'].$lte = to.getMilliseconds();
+					match['time.seconds'].$lte = to.getSeconds(59);
+					match['time.milliseconds'].$lte = to.getMilliseconds(999);
 				};
 				if (typeof (args.req.body.time.from) != 'undefined' && args.req.body.time.from !== null) {
-					if (typeof (match['time.hours']) != 'undefined' && match['time.hours'] !== null) {
+					if (typeof (match['time.hours']) == 'undefined' || match['time.hours'] == null) {
 						match['time.hours'] = {};
 					};
-					if (typeof (match['time.minutes']) != 'undefined' && match['time.minutes'] !== null) {
+					if (typeof (match['time.minutes']) == 'undefined' || match['time.minutes'] == null) {
 						match['time.minutes'] = {};
 					};
-					if (typeof (match['time.seconds']) != 'undefined' && match['time.seconds'] !== null) {
+					if (typeof (match['time.seconds']) == 'undefined' || match['time.seconds'] == null) {
 						match['time.seconds'] = {};
 					};
-					if (typeof (match['time.milliseconds']) != 'undefined' && match['time.milliseconds'] !== null) {
+					if (typeof (match['time.milliseconds']) == 'undefined' || match['time.milliseconds'] == null) {
 						match['time.milliseconds'] = {};
 					};
 					var from = new Time(args.req.body.time.from);
@@ -202,7 +202,7 @@ var module = function () {
 				'config': 1,
 				'message': 1
 			};
-			if (typeof (args.req.body.filter) != 'undefined') {
+			if (Array.isArray(args.req.body.filter)) {
 				filter._id = 0;
 				Object.keys(filter).map(key => {
 					if (args.req.body.filter.includes('messageId') && key == '_id') {
