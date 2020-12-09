@@ -203,12 +203,12 @@ var module = function () {
 				'message': 1
 			};
 			if (Array.isArray(args.req.body.filter)) {
-				filter._id = 0;
+				delete filter._id;
 				Object.keys(filter).map(key => {
 					if (args.req.body.filter.includes('messageId') && key == '_id') {
 						filter[key] = 1;
 					} else if (!args.req.body.filter.includes(key) && key != '_id') {
-						filter[key] = 0;
+						delete filter[key];
 					};
 				});
 			};
