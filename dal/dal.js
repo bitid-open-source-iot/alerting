@@ -160,7 +160,7 @@ var module = function () {
 							match['data.' + key] = {
 								$in: args.req.body.data[key]
 							};
-						} else {
+						} else if (args.req.body.data[key] != null) {
 							match['data.' + key] = args.req.body.data[key];
 						};
 					});
