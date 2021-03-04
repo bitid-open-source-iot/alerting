@@ -156,7 +156,7 @@ var module = function () {
 			if (typeof (args.req.body.data) != 'undefined' && args.req.body.data !== null) {
 				if (Object.keys(args.req.body.data).length > 0) {
 					Object.keys(args.req.body.data).map(key => {
-						if (Array.isArray(args.req.body.data[key])) {
+						if (Array.isArray(args.req.body.data[key]) && args.req.body.data[key].length > 0) {
 							match['data.' + key] = {
 								$in: args.req.body.data[key]
 							};
