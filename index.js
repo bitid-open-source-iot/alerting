@@ -7,7 +7,6 @@ const chalk = require('chalk');
 const notify = require('./lib/notification');
 const express = require('express');
 const responder = require('./lib/responder');
-const bodyparser = require('body-parser');
 const healthcheck = require('@bitid/health-check');
 const ErrorResponse = require('./lib/error-response');
 
@@ -27,14 +26,30 @@ try {
             try {
                 var app = express();
                 app.use(cors());
-                app.use(bodyparser.urlencoded({
+                app.use(express.urlencoded({
                     'limit': '50mb',
                     'extended': true,
                     'parameterLimit': 50000
                 }));
-                app.use(bodyparser.json({
+                app.use(express.json({
                     'limit': '50mb'
                 }));
+
+                app.use((req, res, next) => {
+                    if (req.method != 'GET' && req.method != 'PUT') {
+                        auth.authenticate({
+                            'req': req,
+                            'res': res
+                        })
+                            .then(result => {
+                                next();
+                            }, error => {
+                                __responder.error(req, res, error);
+                            });
+                    } else {
+                        next();
+                    };
+                });
 
                 if (args.settings.authentication) {
                     app.use((req, res, next) => {

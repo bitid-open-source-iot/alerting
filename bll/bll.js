@@ -1,6 +1,7 @@
 const Q = require('q');
 const dal = require('../dal/dal');
 const auth = require('../lib/auth');
+const format = require('../lib/format');
 const notification = require('../lib/notification');
 
 var module = function () {
@@ -72,7 +73,7 @@ var module = function () {
                                 }
                             },
                             'data': args.req.body.data || {},
-                            'email': email,
+                            'email': format.email(email),
                             'title': args.req.body.title,
                             'appId': app.appId,
                             'message': args.req.body.message
@@ -107,7 +108,7 @@ var module = function () {
                     var deferred = Q.defer();
 
                     args.tokens.map(item => {
-                        if (item.appId == alert.appId && item.email == alert.email) {
+                        if (item.appId == alert.appId && format.email(item.email) == format.email(alert.email)) {
                             if (item.platform == 'browser') {
                                 alert.config.webpush.token = item.token;
                             } else if (item.platform == 'ios' || item.platform == 'android') {
@@ -134,7 +135,7 @@ var module = function () {
                         };
                     };
                     if (alert.config.email.enabled) {
-                        const email = await notification.email(alert.email, alert.title, alert.message);
+                        const email = await notification.email(format.email(alert.email), alert.title, alert.message);
                         if (email.ok) {
                             alert.config.email.sent = true;
                             alert.config.email.failed = false;

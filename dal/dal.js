@@ -1,6 +1,7 @@
 const Q = require('q');
 const db = require('../db/mongo');
 const Time = require('../lib/time');
+const format = require('../lib/format');
 const ObjectId = require('mongodb').ObjectId;
 const ErrorResponse = require('../lib/error-response');
 
@@ -10,8 +11,8 @@ var module = function () {
 			var deferred = Q.defer();
 
 			var params = {
-				'_id': ObjectId(args.req.body.messageId),
-				'email': args.req.body.header.email
+				_id: ObjectId(args.req.body.messageId),
+				email: format.email(args.req.body.header.email)
 			};
 
 			var filter = {};
@@ -54,7 +55,7 @@ var module = function () {
 				return {
 					'data': alert.data,
 					'date': new Date(),
-					'email': alert.email,
+					'email': format.email(alert.email),
 					'title': alert.title,
 					'appId': ObjectId(alert.appId),
 					'config': alert.config,
@@ -86,7 +87,7 @@ var module = function () {
 			var deferred = Q.defer();
 
 			var match = {
-				'email': args.req.body.header.email
+				email: format.email(args.req.body.header.email)
 			};
 
 			if (typeof (args.req.body.date) != 'undefined' && args.req.body.date !== null) {
@@ -284,7 +285,7 @@ var module = function () {
 
 			var params = {
 				'email': {
-					$in: args.req.body.users
+					$in: args.req.body.users.filter(o => typeof(o) === 'string').map(o => format.email(o))
 				}
 			};
 
@@ -321,13 +322,13 @@ var module = function () {
 			var deferred = Q.defer();
 
 			var params = {
-				'email': args.req.body.header.email,
+				'email': format.email(args.req.body.header.email),
 				'appId': args.req.body.header.appId,
 				'platform': args.req.body.platform
 			};
 			var update = {
 				$set: {
-					'email': args.req.body.header.email,
+					'email': format.email(args.req.body.header.email),
 					'appId': args.req.body.header.appId,
 					'token': args.req.body.token,
 					'platform': args.req.body.platform
@@ -360,7 +361,7 @@ var module = function () {
 
 			var params = {
 				'token': args.req.body.token,
-				'email': args.req.body.header.email,
+				'email': format.email(args.req.body.header.email),
 				'appId': args.req.body.header.appId,
 				'platform': args.req.body.platform
 			};
