@@ -1,4 +1,5 @@
 {
+    "from": "xxx@xxx.co.za",
     "production": false,
     "authentication": false,
     "auth": {
@@ -7,12 +8,14 @@
         "appId": "xxx",
         "email": "xxx@xxx.co.za"
     },
-    "localwebserver": {
-        "port": 5500
-    },
-    "mongodb": {
-        "url": "xxx",
-        "database": "xxx"
+    "smtp": {
+        "tls": {
+            "rejectUnauthorized": false
+        },
+        "host": "xxx",
+        "port": 0,
+        "secure": false,
+        "connectionTimeout": 10000
     },
     "logger": {
         "appenders": {
@@ -33,14 +36,14 @@
             }
         }
     },
-    "from": "xxx@xxx.co.za",
-    "smtp": {
-        "tls": {
-            "rejectUnauthorized": false
-        },
-        "host": "xxx",
-        "port": 0,
-        "secure": false,
-        "connectionTimeout": 10000
+    "mongodb": {
+        "url": "xxx",
+        "database": "xxx"
+    },
+    "websocket": {
+        "port": 5505
+    },
+    "localwebserver": {
+        "port": 5500
     }
 }

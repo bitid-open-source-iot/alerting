@@ -8,12 +8,14 @@ const notify = require('./lib/notification');
 const express = require('express');
 const responder = require('./lib/responder');
 const healthcheck = require('@bitid/health-check');
+const SocketServer = require('./lib/socket-server');
 const ErrorResponse = require('./lib/error-response');
 
 global.__firebase = {
     'status': 'not_initialized'
 };
 global.__base = __dirname + '/';
+global.__socket = null;
 global.__logger = require('./lib/logger');
 global.__settings = require('./config.json');
 global.__responder = new responder.module();
@@ -99,9 +101,11 @@ try {
                 });
 
                 var server = http.createServer(app);
-                server.listen(args.settings.localwebserver.port);
-
-                deferred.resolve(args);
+                server.listen(args.settings.localwebserver.port, () => {
+                    global.__socket = new SocketServer(server);
+                
+                    deferred.resolve(args);
+                });
             } catch (e) {
                 __logger.info('initAPI catch error: ' + e);
                 deferred.reject(e)

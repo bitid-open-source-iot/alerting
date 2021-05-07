@@ -97,6 +97,7 @@ var module = function () {
                             alert.config.webpush.enabled = args.req.body.webpush.enabled;
                         };
                         args.alerts.push(alert);
+                        __socket.send(format.email(email), 'alerts:notification', alert);
                     });
 
                     deferred.resolve(args);
