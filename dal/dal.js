@@ -69,9 +69,11 @@ var module = function () {
 				'collection': 'tblHistorical'
 			})
 				.then(result => {
+					console.log("1111111111111111111111111111111111111111111111111111111111111111111111111")
 					args.result = result;
 					deferred.resolve(args);
 				}, error => {
+					console.log("2222222222222222222222222222222222222222222222222222222222222222222222222")
 					var err = new ErrorResponse();
 					err.error.code = 503;
 					err.error.errors[0].code = error.code;
