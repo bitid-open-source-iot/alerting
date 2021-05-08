@@ -7,6 +7,7 @@ router.post('/get', (req, res) => {
 });
 
 router.post('/send', (req, res) => {
+    console.loh("send hit", req)
     var myModule = new bll.module();
     myModule.alerts.send(req, res);
 });
