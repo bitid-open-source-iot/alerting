@@ -29,12 +29,11 @@ var module = function () {
             };
 
             try {
-                console.log(1);
                 var myModule = dal.module();
                 auth.apps.list(args)
                     .then(args => args.result.reduce((promise, app) => promise.then(async () => {
                         var deferred = Q.defer();
-                        console.log(2);
+
                         args.req.body.users.map(email => {
                             var alert = {
                                 'config': {
@@ -98,7 +97,6 @@ var module = function () {
                             if (typeof (args.req.body.webpush) != 'undefined') {
                                 alert.config.webpush.enabled = args.req.body.webpush.enabled;
                             };
-                            console.log(3);
                             args.alerts.push(alert);
                             __socket.send(format.email(email), 'alerts:notification', alert);
                         });
@@ -110,7 +108,7 @@ var module = function () {
                     .then(myModule.tokens.list, null)
                     .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                         var deferred = Q.defer();
-                        console.log(4);
+
                         args.tokens.map(item => {
                             if (item.appId == alert.appId && format.email(item.email) == format.email(alert.email)) {
                                 if (item.platform == 'browser') {
@@ -126,64 +124,68 @@ var module = function () {
                     }), Q.when(args)), null)
                     .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                         var deferred = Q.defer();
-                        console.log(5);
-                        if (alert.config.push.enabled && typeof (alert.config.push.token) != 'undefined' && alert.config.push.token != "" && alert.config.push.token != null) {
-                            const push = await notification.push(alert.appId, alert.config.push.token, alert.title, alert.message);
-                            if (push.ok) {
-                                alert.config.push.sent = true;
-                                alert.config.push.failed = false;
-                            } else {
-                                alert.config.push.sent = false;
-                                alert.config.push.error = push.error;
-                                alert.config.push.failed = false;
+                        
+                        try {
+                            if (alert.config.push.enabled && typeof (alert.config.push.token) != 'undefined' && alert.config.push.token != "" && alert.config.push.token != null) {
+                                const push = await notification.push(alert.appId, alert.config.push.token, alert.title, alert.message);
+                                if (push.ok) {
+                                    alert.config.push.sent = true;
+                                    alert.config.push.failed = false;
+                                } else {
+                                    alert.config.push.sent = false;
+                                    alert.config.push.error = push.error;
+                                    alert.config.push.failed = false;
+                                };
                             };
-                        };
-                        if (alert.config.email.enabled) {
-                            const email = await notification.email(format.email(alert.email), alert.title, alert.message);
-                            if (email.ok) {
-                                alert.config.email.sent = true;
-                                alert.config.email.failed = false;
-                            } else {
-                                alert.config.email.sent = false;
-                                alert.config.email.error = email.error;
-                                alert.config.email.failed = false;
+                            if (alert.config.email.enabled) {
+                                const email = await notification.email(format.email(alert.email), alert.title, alert.message);
+                                if (email.ok) {
+                                    alert.config.email.sent = true;
+                                    alert.config.email.failed = false;
+                                } else {
+                                    alert.config.email.sent = false;
+                                    alert.config.email.error = email.error;
+                                    alert.config.email.failed = false;
+                                };
                             };
-                        };
-                        if (alert.config.slack.enabled && typeof (alert.config.slack.token) != 'undefined' && typeof (alert.config.slack.channel) != 'undefined') {
-                            const slack = await notification.slack(alert.config.slack.token, alert.config.slack.channel, alert.title, alert.message);
-                            if (slack.ok) {
-                                alert.config.slack.sent = true;
-                                alert.config.slack.failed = false;
-                            } else {
-                                alert.config.slack.sent = false;
-                                alert.config.slack.error = slack.error;
-                                alert.config.slack.failed = false;
+                            if (alert.config.slack.enabled && typeof (alert.config.slack.token) != 'undefined' && typeof (alert.config.slack.channel) != 'undefined') {
+                                const slack = await notification.slack(alert.config.slack.token, alert.config.slack.channel, alert.title, alert.message);
+                                if (slack.ok) {
+                                    alert.config.slack.sent = true;
+                                    alert.config.slack.failed = false;
+                                } else {
+                                    alert.config.slack.sent = false;
+                                    alert.config.slack.error = slack.error;
+                                    alert.config.slack.failed = false;
+                                };
                             };
-                        };
-                        if (alert.config.trello.enabled && typeof (alert.config.trello.board) != 'undefined') {
-                            const trello = await notification.trello(alert.config.trello.board, alert.title, alert.message);
-                            if (trello.ok) {
-                                alert.config.trello.sent = true;
-                                alert.config.trello.failed = false;
-                            } else {
-                                alert.config.trello.sent = false;
-                                alert.config.trello.error = trello.error;
-                                alert.config.trello.failed = false;
+                            if (alert.config.trello.enabled && typeof (alert.config.trello.board) != 'undefined') {
+                                const trello = await notification.trello(alert.config.trello.board, alert.title, alert.message);
+                                if (trello.ok) {
+                                    alert.config.trello.sent = true;
+                                    alert.config.trello.failed = false;
+                                } else {
+                                    alert.config.trello.sent = false;
+                                    alert.config.trello.error = trello.error;
+                                    alert.config.trello.failed = false;
+                                };
                             };
-                        };
-                        if (alert.config.webpush.enabled && typeof (alert.config.webpush.token) != 'undefined' && alert.config.webpush.token != "" && alert.config.webpush.token != null) {
-                            const webpush = await notification.webpush(alert.appId, alert.config.webpush.token, alert.title, alert.message);
-                            if (webpush.ok) {
-                                alert.config.webpush.sent = true;
-                                alert.config.webpush.failed = false;
-                            } else {
-                                alert.config.webpush.sent = false;
-                                alert.config.webpush.error = webpush.error;
-                                alert.config.webpush.failed = false;
+                            if (alert.config.webpush.enabled && typeof (alert.config.webpush.token) != 'undefined' && alert.config.webpush.token != "" && alert.config.webpush.token != null) {
+                                const webpush = await notification.webpush(alert.appId, alert.config.webpush.token, alert.title, alert.message);
+                                if (webpush.ok) {
+                                    alert.config.webpush.sent = true;
+                                    alert.config.webpush.failed = false;
+                                } else {
+                                    alert.config.webpush.sent = false;
+                                    alert.config.webpush.error = webpush.error;
+                                    alert.config.webpush.failed = false;
+                                };
                             };
-                        };
-                        console.log(6);
-                        deferred.resolve(args);
+                            deferred.resolve(args);
+                        } catch (error) {
+                            console.log("sending error: ", error);
+                            deferred.resolve(args);
+                        }
     
                         return deferred.promise;
                     }), Q.when(args)), null)
