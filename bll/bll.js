@@ -127,6 +127,7 @@ var module = function () {
                         
                         try {
                             if (alert.config.push.enabled && typeof (alert.config.push.token) != 'undefined' && alert.config.push.token != "" && alert.config.push.token != null) {
+                                console.log(["sending push to this token: ", alert.config.push.token, ' with this title: ', alert.title, ' and this message: ', alert.message].join(''));
                                 const push = await notification.push(alert.appId, alert.config.push.token, alert.title, alert.message);
                                 if (push.ok) {
                                     alert.config.push.sent = true;
