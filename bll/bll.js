@@ -187,8 +187,7 @@ var module = function () {
                 .then(myModule.alerts.write, null)
                 .then(args => {
                     __responder.success(req, res, args.result);
-                })
-                .catch(err => {
+                }, err => {
                     __responder.error(req, res, err);
                 });
         },
