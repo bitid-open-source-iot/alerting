@@ -29,12 +29,12 @@ var module = function () {
             };
 
             try {
-
+                console.log(1);
                 var myModule = dal.module();
                 auth.apps.list(args)
                     .then(args => args.result.reduce((promise, app) => promise.then(async () => {
                         var deferred = Q.defer();
-    
+                        console.log(2);
                         args.req.body.users.map(email => {
                             var alert = {
                                 'config': {
@@ -98,6 +98,7 @@ var module = function () {
                             if (typeof (args.req.body.webpush) != 'undefined') {
                                 alert.config.webpush.enabled = args.req.body.webpush.enabled;
                             };
+                            console.log(3);
                             args.alerts.push(alert);
                             __socket.send(format.email(email), 'alerts:notification', alert);
                         });
@@ -109,7 +110,7 @@ var module = function () {
                     .then(myModule.tokens.list, null)
                     .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                         var deferred = Q.defer();
-    
+                        console.log(4);
                         args.tokens.map(item => {
                             if (item.appId == alert.appId && format.email(item.email) == format.email(alert.email)) {
                                 if (item.platform == 'browser') {
@@ -125,7 +126,7 @@ var module = function () {
                     }), Q.when(args)), null)
                     .then(args => args.alerts.reduce((promise, alert) => promise.then(async () => {
                         var deferred = Q.defer();
-    
+                        console.log(5);
                         if (alert.config.push.enabled && typeof (alert.config.push.token) != 'undefined' && alert.config.push.token != "" && alert.config.push.token != null) {
                             const push = await notification.push(alert.appId, alert.config.push.token, alert.title, alert.message);
                             if (push.ok) {
@@ -181,7 +182,7 @@ var module = function () {
                                 alert.config.webpush.failed = false;
                             };
                         };
-    
+                        console.log(6);
                         deferred.resolve(args);
     
                         return deferred.promise;
