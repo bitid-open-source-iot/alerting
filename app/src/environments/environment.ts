@@ -2,7 +2,7 @@ export const environment = {
     "auth":         "https://auth.bitid.co.za",
     "appId":        "000000000000000000000003",
     "appName":      "Alerting",
-    "alerting":     "http://127.0.0.1:5500",
+    "alerting":     "http://127.0.0.1:5000",
     "production":   false,
     "roles": [
         {"value": 1, "title": "Read Only"},

@@ -41,9 +41,9 @@
         "database": "xxx"
     },
     "websocket": {
-        "port": 5505
+        "port": 5005
     },
     "localwebserver": {
-        "port": 5500
+        "port": 5000
     }
 }

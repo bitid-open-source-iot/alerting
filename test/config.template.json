@@ -20,5 +20,5 @@
 	"token": {},
 	"email": "xxx@xxx.co.za",
 	"appId": "xxx",
-	"alerting": "http://127.0.0.1:5500"
+	"alerting": "http://127.0.0.1:5000"
 }
