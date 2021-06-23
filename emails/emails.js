@@ -10,6 +10,7 @@ exports.alert = async (email, title, message, plain) => {
             'to': email,
             'from': __settings.production ? __settings.from : __settings.smtp.auth.user,
             'text': message,
+            'html': message,
             'subject': title
         });
     
