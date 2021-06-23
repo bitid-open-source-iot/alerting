@@ -83,8 +83,8 @@ var module = function () {
                                 alert.config.push.enabled = args.req.body.push.enabled;
                             };
                             if (typeof (args.req.body.email) != 'undefined') {
-                                alert?.config?.email?.plain = args.req.body?.email?.plain;
-                                alert?.config?.email?.enabled = args.req.body?.email?.enabled;
+                                alert.config.email.plain = args.req.body.email.plain;
+                                alert.config.email.enabled = args.req.body.email.enabled;
                             };
                             if (typeof (args.req.body.slack) != 'undefined') {
                                 alert.config.slack.token = args.req.body.slack.token;
