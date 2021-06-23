@@ -139,7 +139,7 @@ var module = function () {
                                 };
                             };
                             if (alert.config.email.enabled) {
-                                __logger.log('Plain Mail: ', alert.config.email.plain)
+                                __logger.info('Plain Mail: ', alert.config.email.plain)
                                 const email = await notification.email(format.email(alert.email), alert.title, alert.message, alert.config.email.plain);
                                 if (email.ok) {
                                     alert.config.email.sent = true;
