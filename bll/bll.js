@@ -83,6 +83,7 @@ var module = function () {
                                 alert.config.push.enabled = args.req.body.push.enabled;
                             };
                             if (typeof (args.req.body.email) != 'undefined') {
+                                alert.config.email.plain = args.req.body.email.plain;
                                 alert.config.email.enabled = args.req.body.email.enabled;
                             };
                             if (typeof (args.req.body.slack) != 'undefined') {
@@ -138,7 +139,7 @@ var module = function () {
                                 };
                             };
                             if (alert.config.email.enabled) {
-                                const email = await notification.email(format.email(alert.email), alert.title, alert.message);
+                                const email = await notification.email(format.email(alert.email), alert.title, alert.message, alert.config.email.plain);
                                 if (email.ok) {
                                     alert.config.email.sent = true;
                                     alert.config.email.failed = false;

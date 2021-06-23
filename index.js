@@ -37,22 +37,6 @@ try {
                     'limit': '50mb'
                 }));
 
-                app.use((req, res, next) => {
-                    if (req.method != 'GET' && req.method != 'PUT') {
-                        auth.authenticate({
-                            'req': req,
-                            'res': res
-                        })
-                            .then(result => {
-                                next();
-                            }, error => {
-                                __responder.error(req, res, error);
-                            });
-                    } else {
-                        next();
-                    };
-                });
-
                 if (args.settings.authentication) {
                     app.use((req, res, next) => {
                         if (req.method != 'GET' && req.method != 'PUT') {
